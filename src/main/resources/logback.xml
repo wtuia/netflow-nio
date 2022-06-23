@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration scan="true" scanPeriod="30 seconds">
+    
+    <property name="LOG_HOME" value="logs"/>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d{yyy-MM-dd HH:mm:ss} %-5level [%thread] %logger.%M\(%F:%L\) - %msg%n
+            </pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/log.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/log.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+             <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>
+                %d{yyy-MM-dd HH:mm:ss} %-5level [%thread] %logger.%M\(%F:%L\) - %msg%n
+            </Pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

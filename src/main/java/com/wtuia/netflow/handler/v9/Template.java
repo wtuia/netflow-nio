@@ -1,5 +1,8 @@
 package com.wtuia.netflow.handler.v9;
 
+/**
+ * V9模板
+ */
 class Template {
 	private final FlowFieldEnum type;
 	private final int length;

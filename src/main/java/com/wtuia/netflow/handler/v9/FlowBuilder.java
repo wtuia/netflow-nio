@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -42,11 +41,14 @@ class FlowBuilder {
 		return Collections.unmodifiableMap(fileMethodMap);
 	}
 	
+	/**
+	 * 将netflow流量组按特定格式组装
+	 */
 	static List<Flow> builder(List<OriginFlow> originFlowList, String ip) {
 		List<Flow> flowList = new ArrayList<>();
 		try {
-			originFlowList.forEach(k -> {
-				Map<FlowFieldEnum, byte[]> fileValueMap = k.splitByFlied();
+			originFlowList.forEach(originFlow -> {
+				Map<FlowFieldEnum, byte[]> fileValueMap = originFlow.splitByFlied();
 				flowList.add(createFlow(fileValueMap, ip));
 			});
 		} catch (Exception e) {

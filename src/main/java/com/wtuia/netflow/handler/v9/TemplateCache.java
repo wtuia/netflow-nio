@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 模板缓存
+ */
 public class TemplateCache {
 	
 	private static final class InstanceHolder {

@@ -30,6 +30,9 @@ public class V9NetFlowHandler {
 		return FlowBuilder.builder(originFlowList, ip);
 	}
 	
+	/**
+	 * 将 byteBuff 解包为netflow流量组
+	 */
 	private List<OriginFlow> unpack(ByteBuf buff) {
 		int count = buff.readShort();
 		long sysUptime = buff.readInt();
@@ -42,11 +45,14 @@ public class V9NetFlowHandler {
 		}
 		List<OriginFlow> originFlowList = new ArrayList<>();
 		for (int i = 0; i < count; i++) {
+			// 模板id
 			int id = buff.readShort();
+			// -4 除去 flowSetId 和 length 的值, 这两个值同样包含在长度内
 			int length = buff.readShort() - 4;
 			byte[] dataBytes = new byte[length];
 			buff.readBytes(dataBytes);
 			if (id == 0) {
+				// id为0是模板, 把模板更新到模板缓存
 				TemplateCache.getInstance().addTemplate(dataBytes);
 			} else {
 				originFlowList.add(new OriginFlow(id, dataBytes));

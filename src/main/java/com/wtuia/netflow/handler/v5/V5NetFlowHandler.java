@@ -64,7 +64,7 @@ public class V5NetFlowHandler {
 	private long toNumber(byte[] p) {
 		long ret = 0;
 		for (int i = 0; i < 4; i++)
-			ret = ((ret << 8) & 0xffffffff) + (p[i] & 0xff);
+			ret = ((ret << 8) & 0XFFFFFFFF) + (p[i] & 0XFF);
 		
 		return ret;
 	}

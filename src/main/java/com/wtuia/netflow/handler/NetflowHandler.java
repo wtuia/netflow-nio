@@ -24,10 +24,11 @@ public class NetflowHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket msg) {
 		InetSocketAddress remoteAddress = msg.sender();
+		// 源端ip
 		String ip = remoteAddress.getHostString();
 		final ByteBuf buff = msg.copy().content();
 		List<Flow> flowList = getFlow(ip, buff);
-		flowList.forEach(v -> logger.info("ip:{}, flow:{}", ip, v));
+		print(ip, flowList);
 		buff.release();
 	}
 	
@@ -42,4 +43,7 @@ public class NetflowHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		return Collections.emptyList();
 	}
 	
+	private void print(String ip, List<Flow> flowList) {
+		flowList.forEach(v -> logger.info("ip:{}, flow:{}", ip, v));
+	}
 }

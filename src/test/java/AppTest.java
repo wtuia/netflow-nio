@@ -1,10 +1,14 @@
-import com.wtuia.netflow.client.UDPClient;
+import com.wtuia.netflow.client.NetFlowClient;
 
 public class AppTest {
 	
-	
+	/**
+	 * @see com.wtuia.netflow.handler.Flow
+	 */
 	public static void main(String[] args) {
-		new Thread(new UDPClient()).start();
+		NetFlowClient.onMessage((list) -> {
+			list.forEach(System.out::println);
+		});
 	}
 	
 	

@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class V9NetFlowHandler {
@@ -39,8 +38,8 @@ public class V9NetFlowHandler {
 		long timestamp = buff.readInt();
 		int flowSequence = buff.readInt();
 		int sourceId = buff.readInt();
-		if (logger.isInfoEnabled()) {
-			logger.info("v9 count:{},sysUptime:{},timestamp:{},flowSequence:{},sourceId{}",
+		if (logger.isDebugEnabled()) {
+			logger.debug("v9 count:{},sysUptime:{},timestamp:{},flowSequence:{},sourceId{}",
 					count, sysUptime, timestamp, flowSequence, sourceId);
 		}
 		List<OriginFlow> originFlowList = new ArrayList<>();

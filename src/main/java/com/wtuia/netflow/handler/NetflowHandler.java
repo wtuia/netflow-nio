@@ -1,5 +1,6 @@
 package com.wtuia.netflow.handler;
 
+import com.wtuia.netflow.client.NetflowCallback;
 import com.wtuia.netflow.handler.v5.V5NetFlowHandler;
 import com.wtuia.netflow.handler.v9.V9NetFlowHandler;
 import io.netty.buffer.ByteBuf;
@@ -21,6 +22,12 @@ public class NetflowHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 	
 	private final V5NetFlowHandler v5NetFlowHandler = V5NetFlowHandler.getInstance();
 	
+	private final NetflowCallback callback;
+	
+	public NetflowHandler(NetflowCallback callback) {
+		this.callback = callback;
+	}
+	
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket msg) {
 		InetSocketAddress remoteAddress = msg.sender();
@@ -28,8 +35,8 @@ public class NetflowHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		String ip = remoteAddress.getHostString();
 		final ByteBuf buff = msg.copy().content();
 		List<Flow> flowList = getFlow(ip, buff);
-		print(ip, flowList);
 		buff.release();
+		callback.accept(flowList);
 	}
 	
 	private List<Flow> getFlow(String ip, ByteBuf buff) {
@@ -40,10 +47,9 @@ public class NetflowHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		if (version == 9) {
 			return v9NetFlowHandler.getFlow(ip, buff);
 		}
+		logger.warn("unsupported version:{}", version);
 		return Collections.emptyList();
 	}
 	
-	private void print(String ip, List<Flow> flowList) {
-		flowList.forEach(v -> logger.info("ip:{}, flow:{}", ip, v));
-	}
+	
 }

@@ -1,3 +1,11 @@
 # netflow-nio
 
-使用netty读取netflow报文, 含v5和v9的处理器
+Processor for reading NetFlow packets based on Netty, including both v5 and v9.
+
+Usage
+``` java
+import com.wtuia.netflow.client.NetFlowClient;
+NetFlowClient.onMessage((list) -> {
+	list.forEach(System.out::println);
+});
+```

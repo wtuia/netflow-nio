@@ -1,7 +1,7 @@
 package com.wtuia.netflow.handler;
 
 /**
- * netflow的结果对象, 只含有部分值
+ * netflow的结果对象
  */
 public class Flow {
 	

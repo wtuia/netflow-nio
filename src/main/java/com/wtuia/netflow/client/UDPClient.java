@@ -23,6 +23,11 @@ class UDPClient implements Runnable{
 		this.callback = callback;
 	}
 	
+	public UDPClient(int port, NetflowCallback callback) {
+		this.port = port;
+		this.callback = callback;
+	}
+	
 	@Override
 	public void run() {
 		runClient();
